@@ -1,0 +1,57 @@
+{
+  "name": "emrikol/rede",
+  "description": "Creates an endpoint to return EXIF data of remote images.",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Derrick Tennant",
+      "homepage": "https://emrikol.com/"
+    }
+  ],
+  "require": {
+    "php": ">=8.4"
+  },
+  "require-dev": {
+    "automattic/vipwpcs": "^3",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "emrikol/phpcs": "^0.5.2",
+    "phpcompatibility/phpcompatibility-wp": "^2",
+    "phpunit/phpunit": "^11",
+    "phpstan/phpstan": "^2.1",
+    "shipmonk/dead-code-detector": "^0.14",
+    "php-stubs/wordpress-stubs": "^6.0",
+    "wpreadme2markdown/wp2md": "^4.1"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/emrikol/phpcs"
+    }
+  ],
+  "autoload-dev": {
+    "psr-4": {
+      "Rede\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "lint": "bash vendor/emrikol/phpcs/bin/phpcs-lint.sh",
+    "lint:fix": "bash vendor/emrikol/phpcs/bin/phpcs-lint.sh --fix",
+    "test": "phpunit --configuration tests/phpunit.xml.dist",
+    "test:coverage": "XDEBUG_MODE=coverage phpunit --configuration tests/phpunit.xml.dist --coverage-text",
+    "stan": [
+      "phpstan analyse -c phpstan.neon.dist --memory-limit=1G"
+    ],
+    "stan:baseline": [
+      "phpstan analyse -c phpstan.neon.dist --memory-limit=1G --generate-baseline=phpstan-baseline.neon"
+    ],
+    "readme": [
+      "vendor/bin/wp2md readme.txt README.md"
+    ]
+  }
+}
