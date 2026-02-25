@@ -1,6 +1,13 @@
 # Remote EXIF Data Endpoint
 
-A WordPress plugin that exposes a read-only REST API endpoint for retrieving EXIF metadata from remote images. Images are fetched securely through the WordPress HTTP API, validated, and their metadata is returned as clean, JSON-ready data.
+**Contributors:** emrikol
+**Tags:** exif, api, rest
+**Requires at least:** 6.7
+**Tested up to:** 6.7
+**License:** GPL-3.0-or-later
+**Donate link:** <https://wordpressfoundation.org/donate/>
+
+A WordPress plugin that exposes a read-only REST API endpoint for retrieving EXIF metadata from remote images. Some hosting providers don't have the `exif` PHP extension enabled — or enabling it on your primary site isn't worth the effort. This plugin can be installed on any secondary WordPress site to offer EXIF data over a simple authenticated API. Images are fetched securely through the WordPress HTTP API, validated, and their metadata is returned as clean, JSON-ready data.
 
 ## Features
 
@@ -188,3 +195,19 @@ composer lint:fix
 ## License
 
 GPL-3.0-or-later. See plugin header in `rede.php`.
+
+## Changelog
+
+### 2.0.0
+
+- Added authentication: WordPress Application Passwords and TOTP (`Authorization: TOTP <code>`)
+- Fetch remote images via `wp_remote_get()` instead of passing URLs directly to `exif_read_data()` (fixes SSRF / `allow_url_fopen` dependency)
+- Transform raw EXIF output: rational strings → float, timestamps → ISO 8601, GPS DMS → decimal degrees
+- Computed convenience fields: `GPSDecimalLatitude`, `GPSDecimalLongitude`, `GPSDecimalAltitude`, `CapturedAt`
+- Binary and control-character EXIF values are discarded for JSON safety
+- Replaced PHPCS ruleset and test scaffold with modern tooling (PHPUnit 11, 100% line coverage)
+- Requires PHP 8.4+ and WordPress 6.7+
+
+### 1.0.0
+
+First release.
